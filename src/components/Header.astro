@@ -1,0 +1,59 @@
+---
+const currentPath = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <div class="header-inner container">
+    <a href="/" class="site-title">FCQ.md</a>
+    <nav>
+      <a href="/archives" class:list={[{ active: currentPath === '/archives/' || currentPath === '/archives' }]}>归档</a>
+      <a href="/about" class:list={[{ active: currentPath === '/about/' || currentPath === '/about' }]}>关于</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--color-border);
+    background-color: var(--color-header-bg);
+  }
+
+  .header-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .site-title {
+    font-family: var(--font-mono);
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0;
+    border-bottom: none;
+  }
+
+  .site-title:hover {
+    border-bottom: none;
+  }
+
+  nav {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  nav a {
+    font-family: var(--font-heading);
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+    border-bottom: none;
+    letter-spacing: 0.02em;
+  }
+
+  nav a:hover,
+  nav a.active {
+    color: var(--color-text);
+    border-bottom: none;
+  }
+</style>

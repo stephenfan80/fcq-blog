@@ -1,0 +1,17 @@
+{
+  "name": "fcq-blog",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "FCQ.md - 记录我对于世界的观察和感受",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "publish": "bash scripts/publish.sh"
+  },
+  "dependencies": {
+    "astro": "^5.7.10",
+    "@astrojs/rss": "^4.0.11",
+    "@astrojs/sitemap": "^3.3.1"
+  }
+}

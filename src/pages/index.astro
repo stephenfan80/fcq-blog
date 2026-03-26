@@ -1,0 +1,44 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostList from '../components/PostList.astro';
+
+const posts = (await getCollection('blog'))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 20);
+---
+
+<BaseLayout>
+  <section class="intro">
+    <p class="tagline">记录我对于世界的观察和感受</p>
+  </section>
+  <PostList posts={posts} />
+  {posts.length >= 20 && (
+    <div class="view-all">
+      <a href="/archives">查看所有文章 &rarr;</a>
+    </div>
+  )}
+</BaseLayout>
+
+<style>
+  .intro {
+    margin-bottom: 2rem;
+  }
+
+  .tagline {
+    color: var(--color-text-secondary);
+    font-size: 1rem;
+    margin-bottom: 0;
+  }
+
+  .view-all {
+    margin-top: 2rem;
+    text-align: center;
+  }
+
+  .view-all a {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+  }
+</style>

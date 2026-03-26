@@ -1,0 +1,103 @@
+---
+interface Post {
+  id: string;
+  data: {
+    title: string;
+    pubDate: Date;
+  };
+}
+
+interface Props {
+  posts: Post[];
+  groupByYear?: boolean;
+}
+
+const { posts, groupByYear = false } = Astro.props;
+
+// 按年份分组
+function groupPosts(posts: Post[]) {
+  const groups: Record<string, Post[]> = {};
+  for (const post of posts) {
+    const year = post.data.pubDate.getFullYear().toString();
+    if (!groups[year]) groups[year] = [];
+    groups[year].push(post);
+  }
+  return Object.entries(groups).sort(([a], [b]) => Number(b) - Number(a));
+}
+
+const formatDate = (date: Date) =>
+  date.toLocaleDateString('zh-CN', { month: '2-digit', day: '2-digit' });
+
+const grouped = groupByYear ? groupPosts(posts) : [['', posts]];
+---
+
+<div class="post-list">
+  {grouped.map(([year, yearPosts]) => (
+    <section>
+      {groupByYear && year && <h2 class="year-heading">{year}</h2>}
+      <ul>
+        {(yearPosts as Post[]).map((post) => (
+          <li>
+            <a href={`/blog/${post.id}/`}>{post.data.title}</a>
+            <time datetime={post.data.pubDate.toISOString()}>
+              {groupByYear ? formatDate(post.data.pubDate) : post.data.pubDate.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' })}
+            </time>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+</div>
+
+<style>
+  .post-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .post-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 0.6em 0;
+    border-bottom: 1px solid var(--color-border);
+    gap: 1rem;
+    margin-bottom: 0;
+  }
+
+  .post-list li:last-child {
+    border-bottom: none;
+  }
+
+  .post-list a {
+    border-bottom: none;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .post-list a:hover {
+    border-bottom: none;
+    color: var(--color-link-hover);
+  }
+
+  .post-list time {
+    color: var(--color-text-secondary);
+    font-size: 0.85rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .year-heading {
+    font-family: var(--font-mono);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-text-secondary);
+  }
+
+  .year-heading:first-child {
+    margin-top: 0;
+  }
+</style>

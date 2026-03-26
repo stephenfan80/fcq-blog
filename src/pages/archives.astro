@@ -1,0 +1,27 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostList from '../components/PostList.astro';
+
+const posts = (await getCollection('blog'))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<BaseLayout title="归档">
+  <h1 class="page-title">归档</h1>
+  <p class="post-count">共 {posts.length} 篇文章</p>
+  <PostList posts={posts} groupByYear={true} />
+</BaseLayout>
+
+<style>
+  .page-title {
+    margin-bottom: 0.3em;
+  }
+
+  .post-count {
+    color: var(--color-text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+  }
+</style>
