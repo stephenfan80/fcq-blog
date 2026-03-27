@@ -177,16 +177,20 @@ echo "[构建] 生成站点..."
 npm run build
 echo ""
 
-# --- Git 提交并推送 ---
-echo "[部署] 提交并推送..."
+# --- Git 提交 ---
+echo "[Git] 提交更改..."
 git add -A
 if git diff --staged --quiet; then
   echo "  没有新的更改需要提交"
 else
   git commit -m "publish: $(date '+%Y-%m-%d %H:%M')"
   git push
-  echo ""
-  echo "=== 发布完成！Vercel 将自动部署 ==="
 fi
+echo ""
 
+# --- 部署到 Vercel ---
+echo "[部署] 发布到 Vercel..."
+npx vercel --prod --yes 2>&1 | tail -5
+echo ""
+echo "=== 发布完成！ ==="
 echo ""
