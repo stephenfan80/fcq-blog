@@ -190,9 +190,7 @@ else
 fi
 echo ""
 
-# --- 部署到 Vercel ---
-echo "[部署] 发布到 Vercel..."
-npx vercel --prod --yes 2>&1 | tail -5
 echo ""
-echo "=== 发布完成！ ==="
+echo "=== 发布完成！Vercel 将自动部署 ==="
+echo "查看博客: https://fcq-blog.vercel.app"
 echo ""
