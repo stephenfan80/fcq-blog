@@ -151,19 +151,21 @@ FRONTMATTER
   convert_wikilinks "$local_file"
 
 else
-  # --- 模式：发布"博客发布"文件夹中所有文章 ---
+  # --- 模式：发布"博客发布"文件夹中所有新文章 ---
   echo "同步博客发布文件夹..."
   echo ""
 
-  # 同步 Markdown（排除模板）
-  rsync -av --delete \
-    --include="*.md" \
-    --include="*/" \
-    --exclude="模板-*" \
-    --exclude="*" \
-    "$OBSIDIAN_BLOG/" "$BLOG_CONTENT/"
+  # 复制新文章到博客（不用 --delete，保留已有文章）
+  # 排除模板文件
+  find "$OBSIDIAN_BLOG" -name "*.md" -not -name "模板-*" -type f | while read -r src_file; do
+    dest_file="$BLOG_CONTENT/$(basename "$src_file")"
+    if [ ! -f "$dest_file" ] || [ "$src_file" -nt "$dest_file" ]; then
+      cp "$src_file" "$dest_file"
+      echo "  同步: $(basename "$src_file")"
+    fi
+  done
 
-  # 处理每篇文章的图片
+  # 处理每篇文章的图片和 Wikilink
   find "$BLOG_CONTENT" -name "*.md" -type f | while read -r file; do
     process_images "$file" "$OBSIDIAN_BLOG"
     convert_wikilinks "$file"
