@@ -109,4 +109,13 @@ AI 正在经历的不是功能升级，而是范式迁移。
 
 ---
 
+## 相关笔记
+
+- [[X推文_JustinLin610_从推理思维到行动思维]] — 本文引用的 Junyang Lin 原文
+- [[Agent：从信息获取到任务执行]] — Agent 系统视角：从信息获取到任务执行
+- [[播客转录_硅谷洞察局_谷歌DeepMind研究员揭秘Coding模型炼制之道]] — RL 训练与推理模型的底层逻辑
+- [[网页_anthropic.com_harness-design-long-running-apps]] — Anthropic 的 Harness 设计：多 Agent 架构实践
+
+---
+
 *原文：Junyang Lin（@JustinLin610），《从"推理"思维到"行动"思维》，2026年3月26日*
